@@ -585,7 +585,7 @@
         <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ -16 Pasos</button>
         <button id="btn-reset" title="Limpiar todas las notas de la secuencia">Reset</button>
         <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
-        <a id="download-link" class="download-link" href="#" download="chipmunk_track.webm" title="Haz clic para descargar tu archivo">Descargar Pista Grabada</a>
+        <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo">Descargar Pista Grabada</a>
     </div>
 
     <div class="main-content">
@@ -1269,19 +1269,18 @@
 
                 // Empezar a grabar
                 recordedChunks = [];
-                let mimeType = 'audio/webm;codecs=opus';
-                let ext = 'webm';
+                let mimeType = 'audio/ogg;codecs=opus';
+                let ext = 'ogg'; // Forzamos que el archivo termine siempre en .ogg
                 
-                // Preferir OGG si el navegador lo soporta, o MP4 como alternativa
-                if (MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')) {
-                    mimeType = 'audio/ogg;codecs=opus';
-                    ext = 'ogg';
-                } else if (MediaRecorder.isTypeSupported('audio/ogg')) {
-                    mimeType = 'audio/ogg';
-                    ext = 'ogg';
-                } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
-                    mimeType = 'audio/mp4';
-                    ext = 'mp4';
+                // Preferir OGG, o WebM como alternativa si el navegador no soporta OGG nativamente para grabar
+                if (!MediaRecorder.isTypeSupported(mimeType)) {
+                    if (MediaRecorder.isTypeSupported('audio/ogg')) {
+                        mimeType = 'audio/ogg';
+                    } else if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+                        mimeType = 'audio/webm;codecs=opus';
+                    } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+                        mimeType = 'audio/webm';
+                    }
                 }
 
                 mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType: mimeType });
