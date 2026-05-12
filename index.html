@@ -36,6 +36,8 @@
             --beat-divider: #444444;
             --font-main: 'Jost', sans-serif;
             --cell-height: 40px;
+            --cell-bg-alt: #16242b;
+            --cell-hover-alt: #20353f;
         }
 
         *,
@@ -290,6 +292,14 @@
             height: 10px;
         }
 
+        input[type="range"].master-slider::-webkit-slider-thumb {
+            background: #ff9800;
+        }
+        
+        input[type="range"].master-slider::-moz-range-thumb {
+            background: #ff9800;
+        }
+
         .effect-controls label {
             display: flex;
             flex-direction: row;
@@ -431,6 +441,13 @@
 
         button.primary:hover { background-color: #26c6da; border-color: #26c6da; }
 
+        button.warning {
+            background-color: #ff9800;
+            color: #000;
+            border: 1px solid #ff9800;
+        }
+        button.warning:hover { background-color: #ffa726; border-color: #ffa726; }
+
         button.record {
             background-color: #f44336;
             border: 1px solid #f44336;
@@ -489,6 +506,23 @@
             background-color: #484848;
         }
 
+        /* Estilos para los cuadrantes alternos (cada 16 pasos) con tono azulado */
+        .cell.alt-quadrant {
+            background-color: var(--cell-bg-alt);
+        }
+        
+        .cell.alt-quadrant:hover {
+            background-color: var(--cell-hover-alt);
+        }
+        
+        .cell[data-track="8"].alt-quadrant {
+            background-color: #23343d;
+        }
+        
+        .cell[data-track="8"].alt-quadrant:hover {
+            background-color: #2f4550;
+        }
+
         .cell.current {
             border: 2px solid #ffffff;
             transform: scale(1.05);
@@ -541,6 +575,15 @@
         .download-link:hover {
             text-decoration: underline;
         }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777777;
+            margin-top: 30px;
+            padding-bottom: 20px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -550,7 +593,7 @@
             <img src="chipmunk.webp" alt="Chipmunk">
             Chipmunk Tracker
         </h1>
-        <p>Secuenciador de 8 Pistas • Score 4/4 • Tonos Agudos</p>
+        <p>Secuenciador de 8 Pistas + Drums</p>
     </div>
 
     <div class="controls">
@@ -567,6 +610,10 @@
             <option value="chip-pad">Chip Pad</option>
             <option value="computer-beep">Computer Beep</option>
             <option value="chimes">Dreamy Chimes</option>
+            <option value="accordion-8bit">Accordion</option>
+            <option value="piano-8bit">Piano</option>
+            <option value="horror-pad">Horror Pad</option>
+            <option value="atari-style">Atari Style</option>
         </select>
         <select id="drum-select" title="Selecciona el sonido para la pista de batería (Drums)">
             <option value="kick">Kick Drum</option>
@@ -583,7 +630,7 @@
         </div>
         <button id="btn-add-quadrant" title="Agregar 16 pasos adicionales (4 tiempos)">➕ +16 Pasos</button>
         <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ -16 Pasos</button>
-        <button id="btn-reset" title="Limpiar todas las notas de la secuencia">Reset</button>
+        <button id="btn-reset" class="warning" title="Limpiar todas las notas de la secuencia">Limpiar</button>
         <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
         <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo">Descargar Pista Grabada</a>
     </div>
@@ -602,7 +649,10 @@
 
         <div class="sidebar">
             <div class="effects" id="effects-panel" title="Panel de ajustes de sonido">
-                <h3 title="Aplica efectos a todo el sonido">Efectos Globales</h3>
+                <div class="effect-controls" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                    <label title="Ajuste general de volumen de la mezcla" style="color: #ff9800; font-weight: bold;">Vol. Maestro: <input type="range" id="master-gain" class="master-slider" min="0" max="2" value="1.0" step="0.01" title="Control de volumen maestro"></label>
+                    <label title="Ajuste de volumen exclusivo para la batería" style="margin-top: 5px;">Vol. Drums: <input type="range" id="drum-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de batería"></label>
+                </div>
                 <div class="effect-controls">
                     <label title="Activar efecto de eco">Delay: <input type="checkbox" id="delay-enable" title="Activar/Desactivar Delay"></label>
                     <label title="Ajustar la velocidad del eco">Tiempo: <input type="range" id="delay-time" min="0" max="1" value="0.3" step="0.01" title="Velocidad del Delay"></label>
@@ -610,18 +660,15 @@
                 </div>
                 <div class="effect-controls">
                     <label title="Activar reverberación o ambiente">Reverb: <input type="checkbox" id="reverb-enable" title="Activar/Desactivar Reverb"></label>
+                    <label title="Ajustar la cantidad de reverberación">Nivel: <input type="range" id="reverb-amount" min="0" max="1" value="0.5" step="0.01" title="Intensidad del Reverb"></label>
                 </div>
                 <div class="effect-controls">
                     <label title="Activar efecto de saturación (Distorsión)">Distorsión: <input type="checkbox" id="distortion-enable" title="Activar/Desactivar Distorsión"></label>
                     <label title="Nivel de intensidad de la distorsión">Cantidad: <input type="range" id="distortion-amount" min="0" max="400" value="120" step="1" title="Intensidad de la distorsión"></label>
                 </div>
-                <div class="effect-controls">
-                    <label title="Ajuste general de volumen de la mezcla">Volumen Maestro: <input type="range" id="master-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen maestro"></label>
-                </div>
             </div>
             
             <div class="effects" id="project-panel" title="Gestión de proyectos">
-                <h3 title="Guarda o carga tu avance">Proyectos</h3>
                 <p style="font-size: 0.85rem; color: #aaaaaa; margin: 0 0 15px 0;">Exporta o importa tus notas en formato .json</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
                     <button id="btn-save" title="Guardar proyecto actual en un archivo JSON" style="flex: 1; justify-content: center;">Guardar</button>
@@ -631,11 +678,15 @@
             </div>
         </div>
     </div>
+    
+    <div class="footer-note">Desarrollado usando IA para la materia de <strong>Taller de Diseño Digital 4 de la UCB</strong></div>
 
     <script>
         // --- CONFIGURACIÓN DE AUDIO (Estilo Chipmunk) ---
         // Escala mayor pentatónica alta para dar el efecto "Chipmunk" / "8-bit alegre"
         const TRACK_FREQUENCIES = [659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51, 1567.98, 1760.00, 0];
+        // Nombres de las notas musicales correspondientes a las frecuencias
+        const TRACK_NOTES = ['E5', 'G5', 'A5', 'C6', 'D6', 'E6', 'G6', 'A6', ''];
         // Colores de resalte modernos para cada pista
         const TRACK_COLORS = ['#FF1744', '#F50057', '#D500F9', '#651FFF', '#3D5AFE', '#00E5FF', '#00E676', '#FFEA00', '#FF9800'];
         
@@ -656,6 +707,7 @@
         // Web Audio API
         let audioCtx;
         let masterGain;
+        let drumGain;
         let dryGain;
         let wetGain;
         let effectSendGain;
@@ -723,7 +775,7 @@
                 // Etiqueta de la pista
                 const label = document.createElement('div');
                 label.className = 'track-label';
-                label.innerText = track === NUM_TRACKS - 1 ? 'Drums' : `Track ${track + 1}`;
+                label.innerText = track === NUM_TRACKS - 1 ? 'Drums' : `Track ${track + 1} (${TRACK_NOTES[track]})`;
                 label.title = track === NUM_TRACKS - 1 ? 'Pista de Batería' : `Pista Melódica ${track + 1}`;
                 labelsColumn.appendChild(label);
 
@@ -738,6 +790,10 @@
 
                     const cell = document.createElement('div');
                     cell.className = 'cell';
+                    // Agrega la clase de fondo alternativo para bloques de 16 pasos impares
+                    if (Math.floor(step / 16) % 2 !== 0) {
+                        cell.classList.add('alt-quadrant');
+                    }
                     cell.dataset.track = track;
                     cell.dataset.step = step;
                     cell.title = `Pista ${track === NUM_TRACKS - 1 ? 'Drums' : track + 1}, Paso ${step + 1}`;
@@ -815,6 +871,10 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             masterGain = audioCtx.createGain();
             masterGain.gain.value = 1.0; // Volumen inicial equilibrado
+            
+            drumGain = audioCtx.createGain();
+            drumGain.gain.value = 1.0; // Volumen inicial de batería
+            drumGain.connect(masterGain); // Se conecta al volumen maestro
 
             dryGain = audioCtx.createGain();
             wetGain = audioCtx.createGain();
@@ -862,9 +922,11 @@
 
             // Sincronizar el estado actual de los controles de UI con el nuevo contexto
             document.getElementById('master-gain').dispatchEvent(new Event('input'));
+            document.getElementById('drum-gain').dispatchEvent(new Event('input'));
             document.getElementById('delay-time').dispatchEvent(new Event('input'));
             document.getElementById('delay-feedback').dispatchEvent(new Event('input'));
             document.getElementById('delay-enable').dispatchEvent(new Event('change'));
+            document.getElementById('reverb-amount').dispatchEvent(new Event('input'));
             document.getElementById('reverb-enable').dispatchEvent(new Event('change'));
             document.getElementById('distortion-amount').dispatchEvent(new Event('input'));
             document.getElementById('distortion-enable').dispatchEvent(new Event('change'));
@@ -1005,7 +1067,7 @@
                     noteGain.gain.setValueAtTime(0.3, time);
                     noteGain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
                 }
-                noteGain.connect(masterGain);
+                noteGain.connect(drumGain);
                 return;
             }
 
@@ -1042,6 +1104,28 @@
                 envAttack = 0.05; // Ataque suave (como golpear con una baqueta de fieltro)
                 envDecay = 1.5; // Decaimiento muy largo para simular resonancia prolongada
                 peakVol = 0.7; // Volumen moderado para no aturdir (es una frecuencia aguda)
+        } else if (currentInstrument === 'accordion-8bit') {
+            oscType = 'sawtooth'; // Onda de sierra para imitar las lengüetas del acordeón
+            envAttack = 0.08; // Ataque más lento imitando el aire entrando al fuelle
+            envDecay = 0.35; // Mayor sostenimiento de la nota
+            peakVol = 0.8; // Volumen controlado
+        } else if (currentInstrument === 'piano-8bit') {
+            oscType = 'triangle'; // Onda triangular para un tono percusivo y limpio
+            envAttack = 0.005; // Ataque muy rápido simulando el golpe del martillo
+            envDecay = 0.5; // Decaimiento medio-largo simulando resonancia
+            peakVol = 1.2; // Compensación de volumen
+        } else if (currentInstrument === 'horror-pad') {
+            oscType = 'sawtooth'; // Onda de sierra para un tono rasposo y oscuro
+            freqMultiplier = 0.5; // Bajamos una octava para que suene más grave y profundo
+            envAttack = 0.4; // Ataque muy lento simulando que el sonido "aparece" misteriosamente
+            envDecay = 0.8; // Decaimiento más corto para reducir el efecto de "reverb" natural
+            peakVol = 0.9;
+        } else if (currentInstrument === 'atari-style') {
+            oscType = 'square'; // Onda cuadrada rústica típica de los juegos de Atari
+            freqMultiplier = 0.5; // Afinación más grave para un tono más "grueso"
+            envAttack = 0.005; // Ataque casi instantáneo
+            envDecay = 0.08; // Duración muy corta, al estilo de un "blip"
+            peakVol = 1.1; // Compensación para que resalte
             } else if (currentInstrument !== 'noise') {
                 // square, triangle, sawtooth, sine, pulse
                 oscType = currentInstrument === 'pulse' ? 'square' : currentInstrument;
@@ -1357,8 +1441,9 @@
                         }
                     }
                     convolverNode.buffer = reverbBuffer;
-                    reverbBypassGain.gain.value = 0;
-                    reverbWetGain.gain.value = 1;
+                    const amount = parseFloat(document.getElementById('reverb-amount').value);
+                    reverbBypassGain.gain.value = 1 - amount;
+                    reverbWetGain.gain.value = amount;
                     effectSendGain.gain.value = 1;
                 } else {
                     reverbBypassGain.gain.value = 1;
@@ -1367,6 +1452,13 @@
                         effectSendGain.gain.value = 0;
                     }
                 }
+            }
+        });
+        document.getElementById('reverb-amount').addEventListener('input', (e) => {
+            if (convolverNode && document.getElementById('reverb-enable').checked) {
+                const amount = parseFloat(e.target.value);
+                reverbBypassGain.gain.value = 1 - amount;
+                reverbWetGain.gain.value = amount;
             }
         });
         document.getElementById('distortion-enable').addEventListener('change', (e) => {
@@ -1389,6 +1481,9 @@
         });
         document.getElementById('master-gain').addEventListener('input', (e) => {
             if (masterGain) masterGain.gain.value = e.target.value;
+        });
+        document.getElementById('drum-gain').addEventListener('input', (e) => {
+            if (drumGain) drumGain.gain.value = e.target.value;
         });
 
         // Guardar y Cargar Proyecto JSON
