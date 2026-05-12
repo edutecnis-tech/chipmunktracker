@@ -614,6 +614,7 @@
             <option value="piano-8bit">Piano</option>
             <option value="horror-pad">Horror Pad</option>
             <option value="atari-style">Atari Style</option>
+            <option value="laser">Laser Pew</option>
         </select>
         <select id="drum-select" title="Selecciona el sonido para la pista de batería (Drums)">
             <option value="kick">Kick Drum</option>
@@ -1126,7 +1127,12 @@
             envAttack = 0.005; // Ataque casi instantáneo
             envDecay = 0.08; // Duración muy corta, al estilo de un "blip"
             peakVol = 1.1; // Compensación para que resalte
-            } else if (currentInstrument !== 'noise') {
+        } else if (currentInstrument === 'laser') {
+            oscType = 'square'; // Onda cuadrada para un disparo retro
+            envAttack = 0.005; // Ataque inmediato
+            envDecay = 0.15; // Decaimiento rápido tipo ráfaga
+            peakVol = 1.0; 
+        } else if (currentInstrument !== 'noise') {
                 // square, triangle, sawtooth, sine, pulse
                 oscType = currentInstrument === 'pulse' ? 'square' : currentInstrument;
                 envDecay = 0.15; // Mayor duración para percibir bien la forma de onda
@@ -1151,7 +1157,15 @@
             } else {
                 const osc = audioCtx.createOscillator();
                 osc.type = oscType;
-                osc.frequency.value = TRACK_FREQUENCIES[trackIndex] * freqMultiplier;
+                
+                if (currentInstrument === 'laser') {
+                    // Caída exponencial de la frecuencia para simular el sonido de láser
+                    const startFreq = TRACK_FREQUENCIES[trackIndex] * 2.5; // Empezamos en un tono alto
+                    osc.frequency.setValueAtTime(startFreq, time);
+                    osc.frequency.exponentialRampToValueAtTime(100, time + envDecay); // Bajamos rápidamente
+                } else {
+                    osc.frequency.value = TRACK_FREQUENCIES[trackIndex] * freqMultiplier;
+                }
                 osc.connect(noteGain);
                 osc.start(time);
                 osc.stop(time + envAttack + envDecay + 0.05);
