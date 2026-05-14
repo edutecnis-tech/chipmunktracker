@@ -110,6 +110,10 @@
             padding: 15px 25px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 850px;
+            position: sticky;
+            top: 15px;
+            z-index: 100;
         }
 
         .controls select {
@@ -117,7 +121,7 @@
             max-width: 260px;
             background-color: #000000;
             color: #ffffff;
-            border: 1px solid #777777;
+            border: 2px solid #777777;
             border-radius: 50px;
             padding: 10px 20px;
             font-family: var(--font-main);
@@ -129,11 +133,29 @@
             cursor: pointer;
         }
 
+        /* Colores específicos para cada selector según su pista */
+        #instrument-select { border-color: #aaaaaa; }
+        #drum-select { border-color: #FF9800; color: #FF9800; }
+        #bass-select { border-color: #9C27B0; color: #9C27B0; }
+        #sample-select { border-color: #009688; color: #009688; }
+
+        #instrument-select option,
+        #drum-select option,
+        #bass-select option,
+        #sample-select option {
+            color: #ffffff;
+        }
+
         .controls select:hover,
         .controls select:focus {
             background-color: #222222;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        #instrument-select:hover, #instrument-select:focus { box-shadow: 0 4px 10px #aaaaaa80; }
+        #drum-select:hover, #drum-select:focus { box-shadow: 0 4px 10px #FF980080; }
+        #bass-select:hover, #bass-select:focus { box-shadow: 0 4px 10px #9C27B080; }
+        #sample-select:hover, #sample-select:focus { box-shadow: 0 4px 10px #00968880; }
 
         .bpm-control {
             display: flex;
@@ -183,7 +205,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 300px;
+            width: 270px;
             flex-shrink: 0;
         }
 
@@ -301,10 +323,9 @@
         }
 
         .effect-controls label {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: 85px 1fr;
             align-items: center;
-            justify-content: space-between;
             gap: 8px;
             color: #e0e0e0;
             font-size: 0.95rem;
@@ -393,7 +414,8 @@
         }
 
         .effect-controls label {
-            display: flex;
+            display: grid;
+            grid-template-columns: 85px 1fr;
             align-items: center;
             gap: 10px;
             color: #e0e0e0;
@@ -401,8 +423,11 @@
         }
 
         .effect-controls input[type="range"] {
-            flex: 1;
-            max-width: 200px;
+            width: 100%;
+        }
+
+        .effect-controls input[type="checkbox"] {
+            justify-self: start;
         }
 
         button {
@@ -478,7 +503,8 @@
             white-space: nowrap;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
+            gap: 10px;
             height: var(--cell-height);
         }
 
@@ -493,6 +519,29 @@
             position: relative;
         }
 
+        .track-controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .track-controls button {
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .track-controls .mute-btn.active {
+            background-color: #f44336; border-color: #f44336; color: white;
+        }
+
+        .track-controls .solo-btn.active {
+            background-color: #ffeb3b; border-color: #ffeb3b; color: black;
+        }
+
         .cell:hover {
             background-color: var(--cell-hover);
         }
@@ -505,6 +554,24 @@
         .cell[data-track="8"]:hover {
             background-color: #484848;
         }
+
+    /* Fondo para la fila de Bajo (Track 9) */
+    .cell[data-track="9"] {
+        background-color: #2b2238;
+    }
+    
+    .cell[data-track="9"]:hover {
+        background-color: #3b2f4a;
+    }
+
+    /* Fondo para la fila de FX (Track 10) */
+    .cell[data-track="10"] {
+        background-color: #1a3e3a;
+    }
+    
+    .cell[data-track="10"]:hover {
+        background-color: #245751;
+    }
 
         /* Estilos para los cuadrantes alternos (cada 16 pasos) con tono azulado */
         .cell.alt-quadrant {
@@ -522,6 +589,22 @@
         .cell[data-track="8"].alt-quadrant:hover {
             background-color: #2f4550;
         }
+
+    .cell[data-track="9"].alt-quadrant {
+        background-color: #1f1829;
+    }
+    
+    .cell[data-track="9"].alt-quadrant:hover {
+        background-color: #2d243b;
+    }
+
+    .cell[data-track="10"].alt-quadrant {
+        background-color: #112a27;
+    }
+    
+    .cell[data-track="10"].alt-quadrant:hover {
+        background-color: #1a3e3a;
+    }
 
         .cell.current {
             border: 2px solid #ffffff;
@@ -593,7 +676,7 @@
             <img src="chipmunk.webp" alt="Chipmunk">
             Chipmunk Tracker
         </h1>
-        <p>Secuenciador de 8 Pistas + Drums</p>
+        <p>Secuenciador de 8 Pistas + Drums + Bajo + FX</p>
     </div>
 
     <div class="controls">
@@ -625,12 +708,29 @@
             <option value="crash">Crash</option>
             <option value="cowbell">Cowbell</option>
         </select>
+        <select id="bass-select" title="Selecciona el sonido para la pista de bajo (Bass)">
+            <option value="basic-bass">Basic Bass</option>
+            <option value="synth-bass">Synth Bass</option>
+            <option value="slap-bass">Slap Bass</option>
+            <option value="fuzz-bass">Fuzz Bass</option>
+            <option value="sub-bass">Sub Bass</option>
+        </select>
+        <select id="sample-select" title="Selecciona el efecto de sonido para la pista de FX">
+            <option value="hiss">Hiss</option>
+            <option value="static">Static</option>
+            <option value="sweep-up">Sweep Up</option>
+            <option value="sweep-down">Sweep Down</option>
+            <option value="tsss">Tsss (Aire)</option>
+            <option value="blow">Soplido a micro</option>
+            <option value="snap">Chasquido (Snap)</option>
+            <option value="wind">Viento</option>
+        </select>
         <div class="bpm-control" title="Ajustar la velocidad (Tempo)">
             <label for="tempo-input">BPM:</label>
             <input type="number" id="tempo-input" min="40" max="300" value="130">
         </div>
-        <button id="btn-add-quadrant" title="Agregar 16 pasos adicionales (4 tiempos)">➕ +16 Pasos</button>
-        <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ -16 Pasos</button>
+        <button id="btn-add-quadrant" title="Agregar 16 pasos adicionales (4 tiempos)">➕ 16 Pasos</button>
+        <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ 16 Pasos</button>
         <button id="btn-reset" class="warning" title="Limpiar todas las notas de la secuencia">Limpiar</button>
         <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
         <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo">Descargar Pista Grabada</a>
@@ -651,8 +751,11 @@
         <div class="sidebar">
             <div class="effects" id="effects-panel" title="Panel de ajustes de sonido">
                 <div class="effect-controls" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
-                    <label title="Ajuste general de volumen de la mezcla" style="color: #ff9800; font-weight: bold;">Vol. Maestro: <input type="range" id="master-gain" class="master-slider" min="0" max="2" value="1.0" step="0.01" title="Control de volumen maestro"></label>
-                    <label title="Ajuste de volumen exclusivo para la batería" style="margin-top: 5px;">Vol. Drums: <input type="range" id="drum-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de batería"></label>
+                    <h4 style="margin: 0 0 10px 0; color: #ff9800; font-size: 0.95rem;">Volúmenes</h4>
+                    <label title="Ajuste general de volumen de la mezcla" style="color: #ff9800; font-weight: bold;">Maestro: <input type="range" id="master-gain" class="master-slider" min="0" max="2" value="1.0" step="0.01" title="Control de volumen maestro"></label>
+                    <label title="Ajuste de volumen exclusivo para la batería">Drums: <input type="range" id="drum-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de batería"></label>
+                    <label title="Ajuste de volumen exclusivo para el bajo">Bass: <input type="range" id="bass-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de bajo"></label>
+                    <label title="Ajuste de volumen exclusivo para los efectos">FX: <input type="range" id="fx-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de efectos"></label>
                 </div>
                 <div class="effect-controls">
                     <label title="Activar efecto de eco">Delay: <input type="checkbox" id="delay-enable" title="Activar/Desactivar Delay"></label>
@@ -685,21 +788,25 @@
     <script>
         // --- CONFIGURACIÓN DE AUDIO (Estilo Chipmunk) ---
         // Escala mayor pentatónica alta para dar el efecto "Chipmunk" / "8-bit alegre"
-        const TRACK_FREQUENCIES = [659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51, 1567.98, 1760.00, 0];
+        const TRACK_FREQUENCIES = [659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51, 1567.98, 1760.00, 0, 82.41, 0]; // 82.41 = E2 (Bajo), 0 para FX
         // Nombres de las notas musicales correspondientes a las frecuencias
-        const TRACK_NOTES = ['E5', 'G5', 'A5', 'C6', 'D6', 'E6', 'G6', 'A6', ''];
+        const TRACK_NOTES = ['E5', 'G5', 'A5', 'C6', 'D6', 'E6', 'G6', 'A6', '', 'E2', ''];
         // Colores de resalte modernos para cada pista
-        const TRACK_COLORS = ['#FF1744', '#F50057', '#D500F9', '#651FFF', '#3D5AFE', '#00E5FF', '#00E676', '#FFEA00', '#FF9800'];
+        const TRACK_COLORS = ['#FF1744', '#F50057', '#D500F9', '#651FFF', '#3D5AFE', '#00E5FF', '#00E676', '#FFEA00', '#FF9800', '#9C27B0', '#009688'];
         
-        const NUM_TRACKS = 9;
+        const NUM_TRACKS = 11;
         let NUM_STEPS = 16;
         let TEMPO = 130; // BPM
 
         let currentInstrument = 'square'; // Default instrument
         let currentDrum = 'kick';
+        let currentBass = 'basic-bass'; // Default bass
+        let currentSample = 'hiss'; // Default sample
 
         // Estado del secuenciador
         let gridState = Array(NUM_TRACKS).fill().map(() => Array(NUM_STEPS).fill(false));
+        let mutedTracks = Array(NUM_TRACKS).fill(false);
+        let soloedTracks = Array(NUM_TRACKS).fill(false);
         let currentStep = 0;
         let isPlaying = false;
         let isDragging = false;
@@ -709,6 +816,8 @@
         let audioCtx;
         let masterGain;
         let drumGain;
+        let bassGain;
+        let fxGain;
         let dryGain;
         let wetGain;
         let effectSendGain;
@@ -776,8 +885,49 @@
                 // Etiqueta de la pista
                 const label = document.createElement('div');
                 label.className = 'track-label';
-                label.innerText = track === NUM_TRACKS - 1 ? 'Drums' : `Track ${track + 1} (${TRACK_NOTES[track]})`;
-                label.title = track === NUM_TRACKS - 1 ? 'Pista de Batería' : `Pista Melódica ${track + 1}`;
+                label.style.color = TRACK_COLORS[track]; // Aplicar color de la pista
+                
+                // Contenedor de botones Mute/Solo
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'track-controls';
+                
+                const muteBtn = document.createElement('button');
+                muteBtn.className = 'mute-btn' + (mutedTracks[track] ? ' active' : '');
+                muteBtn.innerText = 'M';
+                muteBtn.title = 'Mute (Silenciar)';
+                muteBtn.addEventListener('click', () => {
+                    mutedTracks[track] = !mutedTracks[track];
+                    muteBtn.classList.toggle('active', mutedTracks[track]);
+                });
+                
+                const soloBtn = document.createElement('button');
+                soloBtn.className = 'solo-btn' + (soloedTracks[track] ? ' active' : '');
+                soloBtn.innerText = 'S';
+                soloBtn.title = 'Solo (Aislar)';
+                soloBtn.addEventListener('click', () => {
+                    soloedTracks[track] = !soloedTracks[track];
+                    soloBtn.classList.toggle('active', soloedTracks[track]);
+                });
+                
+                btnContainer.appendChild(muteBtn);
+                btnContainer.appendChild(soloBtn);
+                
+                const textSpan = document.createElement('span');
+                if (track === 8) {
+                    textSpan.innerText = 'Drums';
+                    label.title = 'Pista de Batería';
+                } else if (track === 9) {
+                    textSpan.innerText = 'Bass';
+                    label.title = 'Pista de Bajo';
+                } else if (track === 10) {
+                    textSpan.innerText = 'FX';
+                    label.title = 'Pista de Efectos';
+                } else {
+                    textSpan.innerText = `T${track + 1} (${TRACK_NOTES[track]})`;
+                    label.title = `Pista Melódica ${track + 1}`;
+                }
+                label.appendChild(btnContainer);
+                label.appendChild(textSpan);
                 labelsColumn.appendChild(label);
 
                 // Celdas de la pista
@@ -797,7 +947,11 @@
                     }
                     cell.dataset.track = track;
                     cell.dataset.step = step;
-                    cell.title = `Pista ${track === NUM_TRACKS - 1 ? 'Drums' : track + 1}, Paso ${step + 1}`;
+                    let trackTitleName = track + 1;
+                    if (track === 8) trackTitleName = 'Drums';
+                    if (track === 9) trackTitleName = 'Bass';
+                    if (track === 10) trackTitleName = 'FX';
+                    cell.title = `Pista ${trackTitleName}, Paso ${step + 1}`;
                     
                     // Restaurar estado visual si la celda ya estaba activa (importante al añadir bloques)
                     if (gridState[track][step]) {
@@ -850,8 +1004,8 @@
                     gridElement.appendChild(cell);
                 }
 
-                // Divisor horizontal después del track 8 (índice 7) antes de los Drums
-                if (track === 7) {
+                // Divisor horizontal después del track 8 (índice 7) antes de los Drums, Bajo y FX
+                if (track === 7 || track === 8 || track === 9) {
                     const labelHDivider = document.createElement('div');
                     labelHDivider.className = 'h-divider';
                     labelsColumn.appendChild(labelHDivider);
@@ -876,6 +1030,14 @@
             drumGain = audioCtx.createGain();
             drumGain.gain.value = 1.0; // Volumen inicial de batería
             drumGain.connect(masterGain); // Se conecta al volumen maestro
+
+            bassGain = audioCtx.createGain();
+            bassGain.gain.value = parseFloat(document.getElementById('bass-gain').value) || 1.0;
+            bassGain.connect(masterGain); // Se conecta al volumen maestro
+            
+            fxGain = audioCtx.createGain();
+            fxGain.gain.value = parseFloat(document.getElementById('fx-gain').value) || 1.0;
+            fxGain.connect(masterGain); // Se conecta al volumen maestro
 
             dryGain = audioCtx.createGain();
             wetGain = audioCtx.createGain();
@@ -924,6 +1086,8 @@
             // Sincronizar el estado actual de los controles de UI con el nuevo contexto
             document.getElementById('master-gain').dispatchEvent(new Event('input'));
             document.getElementById('drum-gain').dispatchEvent(new Event('input'));
+            document.getElementById('bass-gain').dispatchEvent(new Event('input'));
+            document.getElementById('fx-gain').dispatchEvent(new Event('input'));
             document.getElementById('delay-time').dispatchEvent(new Event('input'));
             document.getElementById('delay-feedback').dispatchEvent(new Event('input'));
             document.getElementById('delay-enable').dispatchEvent(new Event('change'));
@@ -956,7 +1120,7 @@
         function playNote(trackIndex, time) {
             const noteGain = audioCtx.createGain();
 
-            if (trackIndex === NUM_TRACKS - 1) { // Pista de batería
+            if (trackIndex === 8) { // Pista de batería
                 if (currentDrum === 'kick') {
                     const osc = audioCtx.createOscillator();
                     osc.type = 'sine';
@@ -1069,6 +1233,190 @@
                     noteGain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
                 }
                 noteGain.connect(drumGain);
+                return;
+            }
+
+            if (trackIndex === 9) { // Pista de bajo
+                let envAttack = 0.01;
+                let envDecay = 0.2;
+                let peakVol = 1.0;
+                let oscType = 'triangle';
+                const baseFreq = TRACK_FREQUENCIES[9];
+
+                if (currentBass === 'basic-bass') {
+                    oscType = 'triangle';
+                    envAttack = 0.02;
+                    envDecay = 0.3;
+                    peakVol = 1.2;
+                } else if (currentBass === 'synth-bass') {
+                    oscType = 'sawtooth';
+                    envAttack = 0.01;
+                    envDecay = 0.25;
+                    peakVol = 0.8;
+                } else if (currentBass === 'slap-bass') {
+                    oscType = 'square';
+                    envAttack = 0.005;
+                    envDecay = 0.15;
+                    peakVol = 1.0;
+                } else if (currentBass === 'fuzz-bass') {
+                    oscType = 'sawtooth';
+                    envAttack = 0.02;
+                    envDecay = 0.3;
+                    peakVol = 0.7;
+                } else if (currentBass === 'sub-bass') {
+                    oscType = 'sine';
+                    envAttack = 0.05;
+                    envDecay = 0.4;
+                    peakVol = 1.5;
+                }
+
+                noteGain.gain.setValueAtTime(0, time);
+                noteGain.gain.linearRampToValueAtTime(peakVol, time + envAttack);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, time + envAttack + envDecay);
+
+                const osc = audioCtx.createOscillator();
+                osc.type = oscType;
+                osc.frequency.setValueAtTime(baseFreq, time);
+
+                if (currentBass === 'synth-bass' || currentBass === 'fuzz-bass') {
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(currentBass === 'fuzz-bass' ? 1200 : 800, time);
+                    filter.frequency.exponentialRampToValueAtTime(100, time + envDecay);
+                    osc.connect(filter);
+                    filter.connect(noteGain);
+                } else {
+                    osc.connect(noteGain);
+                }
+
+                osc.start(time);
+                osc.stop(time + envAttack + envDecay + 0.05);
+                noteGain.connect(bassGain);
+                return;
+            }
+
+            if (trackIndex === 10) { // Pista de FX
+                const noteGain = audioCtx.createGain();
+                noteGain.connect(fxGain);
+                const duration = 0.15;
+
+                if (currentSample === 'hiss' || currentSample === 'static') {
+                    const bufferSize = audioCtx.sampleRate * duration;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = currentSample === 'hiss' ? 'highpass' : 'bandpass';
+                    filter.frequency.value = currentSample === 'hiss' ? 4000 : 1000;
+                    
+                    noise.connect(filter);
+                    filter.connect(noteGain);
+                    noise.start(time);
+                    
+                    noteGain.gain.setValueAtTime(0.6, time);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+                } else if (currentSample === 'sweep-up' || currentSample === 'sweep-down') {
+                    const bufferSize = audioCtx.sampleRate * duration;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+                    
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.Q.value = 15;
+                    const startFreq = currentSample === 'sweep-up' ? 200 : 5000;
+                    const endFreq = currentSample === 'sweep-up' ? 5000 : 200;
+                    filter.frequency.setValueAtTime(startFreq, time);
+                    filter.frequency.exponentialRampToValueAtTime(endFreq, time + duration);
+
+                    noise.connect(filter);
+                    filter.connect(noteGain);
+                    noise.start(time);
+                    
+                    noteGain.gain.setValueAtTime(0.8, time);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+                } else if (currentSample === 'tsss' || currentSample === 'blow') {
+                    const isBlow = currentSample === 'blow';
+                    const sampleDuration = isBlow ? 0.35 : 0.15;
+                    const bufferSize = audioCtx.sampleRate * sampleDuration;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+                    
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = isBlow ? 'lowpass' : 'highpass';
+
+                    noise.connect(filter);
+                    filter.connect(noteGain);
+                    noise.start(time);
+                    
+                    if (isBlow) {
+                        // Bajamos la frecuencia rápidamente para simular el impacto en el micro
+                        filter.frequency.setValueAtTime(600, time);
+                        filter.frequency.exponentialRampToValueAtTime(80, time + sampleDuration);
+                        filter.Q.value = 3;
+                        
+                        noteGain.gain.setValueAtTime(0, time);
+                        noteGain.gain.linearRampToValueAtTime(4.0, time + 0.02); // Ataque percusivo fuerte
+                        noteGain.gain.exponentialRampToValueAtTime(0.001, time + sampleDuration);
+                    } else {
+                        filter.frequency.value = 7000;
+                        noteGain.gain.setValueAtTime(0.7, time);
+                        noteGain.gain.exponentialRampToValueAtTime(0.001, time + sampleDuration);
+                    }
+                } else if (currentSample === 'snap') {
+                    const sampleDuration = 0.1;
+                    const bufferSize = audioCtx.sampleRate * sampleDuration;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+                    
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 3000;
+                    filter.Q.value = 1.5;
+
+                    noise.connect(filter);
+                    filter.connect(noteGain);
+                    noise.start(time);
+                    
+                    noteGain.gain.setValueAtTime(0, time);
+                    noteGain.gain.linearRampToValueAtTime(2.0, time + 0.01);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, time + sampleDuration);
+                } else if (currentSample === 'wind') {
+                    const sampleDuration = 0.5;
+                    const bufferSize = audioCtx.sampleRate * sampleDuration;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+                    
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.Q.value = 2;
+                    filter.frequency.setValueAtTime(300, time);
+                    filter.frequency.exponentialRampToValueAtTime(1000, time + sampleDuration * 0.4);
+                    filter.frequency.exponentialRampToValueAtTime(300, time + sampleDuration);
+
+                    noise.connect(filter);
+                    filter.connect(noteGain);
+                    noise.start(time);
+                    
+                    noteGain.gain.setValueAtTime(0, time);
+                    noteGain.gain.linearRampToValueAtTime(0.4, time + sampleDuration * 0.3);
+                    noteGain.gain.setValueAtTime(0.4, time + sampleDuration * 0.7);
+                    noteGain.gain.linearRampToValueAtTime(0.001, time + sampleDuration);
+                }
                 return;
             }
 
@@ -1211,9 +1559,16 @@
             // Animación visual sincronizada
             requestAnimationFrame(() => updateUI(stepNumber));
 
+            const isAnySolo = soloedTracks.some(s => s);
+
             // Reproducir sonidos activos en esta columna
             for (let track = 0; track < NUM_TRACKS; track++) {
                 if (gridState[track][stepNumber]) {
+                    if (isAnySolo) {
+                        if (!soloedTracks[track]) continue;
+                    } else {
+                        if (mutedTracks[track]) continue;
+                    }
                     playNote(track, time);
                 }
             }
@@ -1350,6 +1705,14 @@
 
         document.getElementById('drum-select').addEventListener('change', (e) => {
             currentDrum = e.target.value;
+        });
+
+        document.getElementById('bass-select').addEventListener('change', (e) => {
+            currentBass = e.target.value;
+        });
+
+        document.getElementById('sample-select').addEventListener('change', (e) => {
+            currentSample = e.target.value;
         });
 
         const recordBtn = document.getElementById('btn-record');
@@ -1499,14 +1862,24 @@
         document.getElementById('drum-gain').addEventListener('input', (e) => {
             if (drumGain) drumGain.gain.value = e.target.value;
         });
+        document.getElementById('bass-gain').addEventListener('input', (e) => {
+            if (bassGain) bassGain.gain.value = e.target.value;
+        });
+        document.getElementById('fx-gain').addEventListener('input', (e) => {
+            if (fxGain) fxGain.gain.value = e.target.value;
+        });
 
         // Guardar y Cargar Proyecto JSON
         document.getElementById('btn-save').addEventListener('click', () => {
             const projectData = {
                 numSteps: NUM_STEPS,
                 gridState: gridState,
+                mutedTracks: mutedTracks,
+                soloedTracks: soloedTracks,
                 instrument: currentInstrument,
                 drum: currentDrum,
+                bass: currentBass,
+                sample: currentSample,
                 tempo: TEMPO
             };
             const blob = new Blob([JSON.stringify(projectData)], { type: "application/json" });
@@ -1535,6 +1908,16 @@
                     if (projectData && projectData.gridState) {
                         NUM_STEPS = projectData.numSteps || projectData.gridState[0].length;
                         gridState = projectData.gridState;
+                        if (projectData.mutedTracks) {
+                            mutedTracks = projectData.mutedTracks;
+                        } else {
+                            mutedTracks = Array(NUM_TRACKS).fill(false);
+                        }
+                        if (projectData.soloedTracks) {
+                            soloedTracks = projectData.soloedTracks;
+                        } else {
+                            soloedTracks = Array(NUM_TRACKS).fill(false);
+                        }
                         if (projectData.instrument) {
                             currentInstrument = projectData.instrument;
                             document.getElementById('instrument-select').value = currentInstrument;
@@ -1542,6 +1925,14 @@
                         if (projectData.drum) {
                             currentDrum = projectData.drum;
                             document.getElementById('drum-select').value = currentDrum;
+                        }
+                        if (projectData.bass) {
+                            currentBass = projectData.bass;
+                            document.getElementById('bass-select').value = currentBass;
+                        }
+                        if (projectData.sample) {
+                            currentSample = projectData.sample;
+                            document.getElementById('sample-select').value = currentSample;
                         }
                         if (projectData.tempo) {
                             TEMPO = projectData.tempo;
