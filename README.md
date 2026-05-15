@@ -5,6 +5,8 @@
 🚀 **[Probar la Demo en Vivo](https://edutecnis-tech.github.io/chipmunktracker/)**
 
 ---
+## Screenshot
+
 ![Chipmunk Tracker Interface](img/chipmunktracker.png)
 
 ## ✨ Características Principales
@@ -28,6 +30,8 @@
 1. **Clona el repositorio:** `git clone https://github.com/edutecnis-tech/chipmunktracker.git`
 2. **Navega al directorio:** `cd chipmunktracker`
 3. **Ejecución:** Abre `index.html` en cualquier navegador moderno.
+
+Version standalone para abrir en cualquier navegador chipmunk_standalone.zip
 
 ## 📜 Licencia
 
