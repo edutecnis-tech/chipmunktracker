@@ -1,6 +1,6 @@
 # 🐿️ Chipmunk Tracker
 
-**Chipmunk Tracker** es un secuenciador de audio basado en web diseñado para la creación de música *chiptune* y de 8 bits. Desarrollado íntegramente mediante **vibe coding** con Gemini, esta herramienta permite a compositores, diseñadores de sonido y entusiastas crear patrones musicales complejos directamente en el navegador. Es ideal para crear efectos de sonido para videojuegos. Se descargan los trackas generados en formato OGG compatible con la mayoría de los motores de videojuegos contemporáneos.
+**Chipmunk Tracker** es un secuenciador de audio basado en web diseñado para la creación de música *chiptune* y de 8 bits. Desarrollado íntegramente mediante **vibe coding** con Gemini, esta herramienta permite a compositores, diseñadores de sonido y entusiastas crear patrones musicales complejos directamente en el navegador. Es ideal para crear efectos de sonido para videojuegos. Se descargan los tracks generados en formato OGG compatible con la mayoría de los motores de videojuegos contemporáneos.
 
 🚀 **[Probar la Demo en Vivo](https://edutecnis-tech.github.io/chipmunktracker/)**
 
