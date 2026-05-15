@@ -705,6 +705,7 @@
             <option value="koto">Koto (Pluck)</option>
             <option value="shred-guitar">Shred Guitar</option>
             <option value="orchestra-hit">Orchestra Hit</option>
+            <option value="arpeggiator">Chiptune</option>
         </select>
         <select id="drum-select" title="Selecciona el sonido para la pista de batería (Drums)">
             <option value="kick">Kick Drum</option>
@@ -764,12 +765,11 @@
         <button id="btn-add-quadrant" title="Agregar 16 pasos adicionales (4 tiempos)">➕ 16 Pasos</button>
         <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ 16 Pasos</button>
         <button id="btn-reset" class="warning" title="Limpiar todas las notas de la secuencia">Limpiar</button>
-        <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
-        <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo">Descargar Pista Grabada</a>
     </div>
 
     <div class="main-content">
-        <div class="sequencer-wrapper">
+        <div class="left-panel" style="display: flex; flex-direction: column; gap: 20px; flex-grow: 1; min-width: 0;">
+            <div class="sequencer-wrapper">
             <div class="labels-column" id="labels-column">
                 <!-- Las etiquetas de las pistas se generan con JS -->
             </div>
@@ -777,6 +777,11 @@
                 <div class="grid" id="sequencer-grid">
                     <!-- La malla se genera con JS -->
                 </div>
+            </div>
+        </div>
+            <div class="record-panel" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; background-color: var(--panel-bg); padding: 15px 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+                <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
+                <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo" style="width: auto;">Descargar Pista Grabada</a>
             </div>
         </div>
 
@@ -1881,6 +1886,11 @@
             envAttack = 0.001; // Golpe agresivo
             envDecay = 0.2;
             peakVol = 0.6; // Volumen reducido porque serán 3 osciladores sumados
+        } else if (currentInstrument === 'arpeggiator') {
+            oscType = 'square'; // El efecto arpegio retro suena mejor en onda cuadrada
+            envAttack = 0.01;
+            envDecay = 0.3; // Un decay un poco más largo para escuchar el ciclo del acorde
+            peakVol = 0.9;
         } else if (currentInstrument !== 'noise') {
                 // square, triangle, sawtooth, sine, pulse
                 oscType = currentInstrument === 'pulse' ? 'square' : currentInstrument;
@@ -1915,6 +1925,26 @@
                         osc.start(time);
                         osc.stop(time + envAttack + envDecay + 0.05);
                     });
+                } else if (currentInstrument === 'arpeggiator') {
+                    const osc = audioCtx.createOscillator();
+                    osc.type = oscType;
+                    
+                    const rootFreq = TRACK_FREQUENCIES[trackIndex] * freqMultiplier;
+                    const arpSpeed = 0.025; // 25 milisegundos por salto (típico de los trackers)
+                    
+                    // Acorde Base: Raíz, 3ra Mayor, 5ta Perfecta, Octava
+                    const arpNotes = [1, 1.2599, 1.4983, 2.0]; 
+                    // Si la escala elegida es de tono menor, adaptamos la 3ra a menor (1.1892)
+                    if (['default', 'minor', 'blues', 'japanese'].includes(currentScale)) {
+                        arpNotes[1] = 1.1892;
+                    }
+                    
+                    // Programar los saltos de frecuencia
+                    for (let i = 0; i < 12; i++) osc.frequency.setValueAtTime(rootFreq * arpNotes[i % 4], time + i * arpSpeed);
+                    
+                    osc.connect(noteGain);
+                    osc.start(time);
+                    osc.stop(time + envAttack + envDecay + 0.05);
                 } else {
                     const osc = audioCtx.createOscillator();
                     osc.type = oscType;
