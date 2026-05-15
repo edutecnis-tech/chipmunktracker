@@ -5,6 +5,7 @@
 🚀 **[Probar la Demo en Vivo](https://edutecnis-tech.github.io/chipmunktracker/)**
 
 ---
+![Chipmunk Tracker Interface](img/chipmunktracker.png)
 
 ## ✨ Características Principales
 
