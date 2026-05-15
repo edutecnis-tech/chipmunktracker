@@ -24,27 +24,9 @@
 
 ## 🚀 Instalación y Uso Local
 
-Si deseas ejecutar este proyecto localmente o contribuir a su desarrollo:
-
-1. **Clona el repositorio:**
-   ```bash
-   git clone [https://github.com/edutecnis-tech/chipmunktracker.git](https://github.com/edutecnis-tech/chipmunktracker.git)
-
-Navega al directorio:
-
-   ```bash
-cd chipmunktracker
-
-3. **Abre el archivo index en tu navegador:**
-   No requiere un servidor backend, simplemente abre `index.html`.
-
-## 🎹 Cómo usarlo
-
-1.  **Selecciona una pista:** Elige entre Melodía, Bajo o Percusión.
-2.  **Dibuja notas:** Haz clic en la rejilla del secuenciador para activar/desactivar notas.
-3.  **Ajusta el sonido:** Usa los selectores de forma de onda y controles de volumen para pulir el tono.
-4.  **Reproduce:** Dale al botón *Play* y ajusta el BPM en tiempo real.
-5.  **Guarda:** Utiliza el botón de exportación para generar tu archivo de audio.
+1. **Clona el repositorio:** `git clone https://github.com/edutecnis-tech/chipmunktracker.git`
+2. **Navega al directorio:** `cd chipmunktracker`
+3. **Ejecución:** Abre `index.html` en cualquier navegador moderno.
 
 ## 📜 Licencia
 
