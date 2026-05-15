@@ -31,7 +31,7 @@
 2. **Navega al directorio:** `cd chipmunktracker`
 3. **Ejecución:** Abre `index.html` en cualquier navegador moderno.
 
-Version standalone para abrir en cualquier navegador chipmunk_standalone.zip
+Version standalone para abrir en cualquier navegador [chipmunk_standalone.zip](https://github.com/edutecnis-tech/chipmunktracker/blob/main/chipmunk_standalone.zip)
 
 ## 📜 Licencia
 
