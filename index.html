@@ -140,12 +140,14 @@
         #bass-select { border-color: #9C27B0; color: #9C27B0; }
         #sample-select { border-color: #009688; color: #009688; }
         #scale-select { border-color: #E91E63; color: #E91E63; }
+        #lang-select { border-color: #4CAF50; color: #4CAF50; }
 
         #instrument-select option,
         #drum-select option,
         #bass-select option,
         #sample-select option,
-        #scale-select option {
+        #scale-select option,
+        #lang-select option {
             color: #ffffff;
         }
 
@@ -160,6 +162,7 @@
         #bass-select:hover, #bass-select:focus { box-shadow: 0 4px 10px #9C27B080; }
         #sample-select:hover, #sample-select:focus { box-shadow: 0 4px 10px #00968880; }
         #scale-select:hover, #scale-select:focus { box-shadow: 0 4px 10px #E91E6380; }
+        #lang-select:hover, #lang-select:focus { box-shadow: 0 4px 10px #4CAF5080; }
 
         .bpm-control {
             display: flex;
@@ -701,12 +704,12 @@
             <img src="chipmunk.webp" alt="Chipmunk">
             Chipmunk Tracker
         </h1>
-        <p>Secuenciador de 8 Pistas + Drums + Bajo + FX</p>
+        <p data-i18n="app_subtitle">Secuenciador de 8 Pistas + Drums + Bajo + FX</p>
     </div>
 
     <div class="controls">
-        <button id="btn-play" class="primary" title="Iniciar/Pausar reproducción">▶ Play</button>
-        <select id="instrument-select" title="Selecciona el instrumento melódico (Tracks 1-8)">
+        <button id="btn-play" class="primary" data-i18n="btn_play" data-i18n-title="title_play" title="Iniciar/Pausar reproducción">▶ Play</button>
+        <select id="instrument-select" data-i18n-title="title_inst" title="Selecciona el instrumento melódico (Tracks 1-8)">
             <option value="square">8-bit Square</option>
             <option value="triangle">8-bit Triangle</option>
             <option value="sawtooth">8-bit Sawtooth</option>
@@ -729,7 +732,7 @@
             <option value="orchestra-hit">Orchestra Hit</option>
             <option value="arpeggiator">Chiptune</option>
         </select>
-        <select id="drum-select" title="Selecciona el sonido para la pista de batería (Drums)">
+        <select id="drum-select" data-i18n-title="title_drum" title="Selecciona el sonido para la pista de batería (Drums)">
             <option value="kick">Kick Drum</option>
             <option value="snare">Snare</option>
             <option value="hihat">Hi-Hat</option>
@@ -738,25 +741,25 @@
             <option value="crash">Crash</option>
             <option value="cowbell">Cowbell</option>
         </select>
-        <select id="bass-select" title="Selecciona el sonido para la pista de bajo (Bass)">
+        <select id="bass-select" data-i18n-title="title_bass" title="Selecciona el sonido para la pista de bajo (Bass)">
             <option value="basic-bass">Basic Bass</option>
             <option value="synth-bass">Synth Bass</option>
             <option value="slap-bass">Slap Bass</option>
             <option value="fuzz-bass">Fuzz Bass</option>
             <option value="sub-bass">Sub Bass</option>
         </select>
-        <select id="sample-select" title="Selecciona el efecto de sonido para la pista de FX">
+        <select id="sample-select" data-i18n-title="title_fx" title="Selecciona el efecto de sonido para la pista de FX">
             <option value="hiss">Hiss</option>
             <option value="static">Static</option>
             <option value="sweep-up">Sweep Up</option>
             <option value="sweep-down">Sweep Down</option>
-            <option value="tsss">Tsss (Aire)</option>
-            <option value="blow">Soplido</option>
-            <option value="snap">Snap</option>
-            <option value="wind">Viento</option>
-            <option value="swoosh">Whosh</option>
+            <option value="tsss" data-i18n="fx_tsss">Tsss (Aire)</option>
+            <option value="blow" data-i18n="fx_blow">Soplido</option>
+            <option value="snap" data-i18n="fx_snap">Snap</option>
+            <option value="wind" data-i18n="fx_wind">Viento</option>
+            <option value="swoosh" data-i18n="fx_swoosh">Whosh</option>
             <option value="gong">Gong</option>
-            <option value="energy">Energía</option>
+            <option value="energy" data-i18n="fx_energy">Energía</option>
             <option value="buzz">Buzz</option>
             <option value="pitch-bend-up">Pitch Bend</option>
             <option value="pop">Pop</option>
@@ -772,21 +775,25 @@
             <option value="dizzy">Dizzy</option>
             <option value="fireball">Fireball</option>
         </select>
-        <select id="scale-select" title="Selecciona la escala musical de las pistas">
-            <option value="default">Pentatónica</option>
-            <option value="major">Mayor Feliz</option>
-            <option value="minor">Menor Oscura</option>
-            <option value="blues">Blues Callejero</option>W
-            <option value="phrygian">Frigia Dominante</option>
-            <option value="japanese">Japonesa Hirajoshi</option>
+        <select id="scale-select" data-i18n-title="title_scale" title="Selecciona la escala musical de las pistas">
+            <option value="default" data-i18n="scale_default">Pentatónica</option>
+            <option value="major" data-i18n="scale_major">Mayor Feliz</option>
+            <option value="minor" data-i18n="scale_minor">Menor Oscura</option>
+            <option value="blues" data-i18n="scale_blues">Blues Callejero</option>
+            <option value="phrygian" data-i18n="scale_phrygian">Frigia Dominante</option>
+            <option value="japanese" data-i18n="scale_japanese">Japonesa Hirajoshi</option>
         </select>
-        <div class="bpm-control" title="Ajustar la velocidad (Tempo)">
-            <label for="tempo-input">BPM:</label>
+        <select id="lang-select" title="Idioma / Language">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+        </select>
+        <div class="bpm-control" data-i18n-title="title_tempo" title="Ajustar la velocidad (Tempo)">
+            <label for="tempo-input" data-i18n="bpm_label">BPM:</label>
             <input type="number" id="tempo-input" min="40" max="300" value="130">
         </div>
-        <button id="btn-add-quadrant" title="Agregar 16 pasos adicionales (4 tiempos)">➕ 16 Pasos</button>
-        <button id="btn-remove-quadrant" title="Quitar los últimos 16 pasos de la cuadrícula">➖ 16 Pasos</button>
-        <button id="btn-reset" class="warning" title="Limpiar todas las notas de la secuencia">Limpiar</button>
+        <button id="btn-add-quadrant" data-i18n="btn_add_16" data-i18n-title="title_add" title="Agregar 16 pasos adicionales (4 tiempos)">➕ 16 Pasos</button>
+        <button id="btn-remove-quadrant" data-i18n="btn_remove_16" data-i18n-title="title_remove" title="Quitar los últimos 16 pasos de la cuadrícula">➖ 16 Pasos</button>
+        <button id="btn-reset" class="warning" data-i18n="btn_clear" data-i18n-title="title_clear" title="Limpiar todas las notas de la secuencia">Limpiar</button>
     </div>
 
     <div class="main-content">
@@ -826,59 +833,59 @@
             </div>
 
             <div class="record-panel" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; background-color: var(--panel-bg); padding: 15px 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-                <button id="btn-record" class="record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
-                <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" title="Haz clic para descargar tu archivo" style="width: auto;">Descargar Pista Grabada</a>
+                <button id="btn-record" class="record" data-i18n="btn_record" data-i18n-title="title_record" title="Exportar la secuencia a un archivo de audio">⏺ Grabar a Audio</button>
+                <a id="download-link" class="download-link" href="#" download="chipmunk_track.ogg" data-i18n="btn_download" data-i18n-title="title_download" title="Haz clic para descargar tu archivo" style="width: auto;">Descargar Pista Grabada</a>
             </div>
         </div>
 
         <div class="sidebar">
-            <div class="effects" id="effects-panel" title="Panel de ajustes de sonido">
+            <div class="effects" id="effects-panel" data-i18n-title="panel_fx" title="Panel de ajustes de sonido">
                 <div class="effect-controls" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
-                    <h4 style="margin: 0 0 10px 0; color: #ff9800; font-size: 0.95rem;">Volúmenes</h4>
-                    <label title="A Ajuste general de volumen de la mezcla" style="color: #ff9800; font-weight: bold;">Maestro: <input type="range" id="master-gain" class="master-slider" min="0" max="2" value="0.8" step="0.01" title="Control de volumen maestro"></label>
-                    <label title="Ajuste de volumen exclusivo para la batería">Drums: <input type="range" id="drum-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de batería"></label>
-                    <label title="Ajuste de volumen exclusivo para el bajo">Bass: <input type="range" id="bass-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de bajo"></label>
-                    <label title="Ajuste de volumen exclusivo para los efectos">FX: <input type="range" id="fx-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de efectos"></label>
+                    <h4 style="margin: 0 0 10px 0; color: #ff9800; font-size: 0.95rem;" data-i18n="vol_title">Volúmenes</h4>
+                    <label title="Ajuste general de volumen de la mezcla" data-i18n-title="vol_master_title" style="color: #ff9800; font-weight: bold;"><span data-i18n="vol_master">Maestro:</span> <input type="range" id="master-gain" class="master-slider" min="0" max="2" value="0.8" step="0.01" title="Control de volumen maestro"></label>
+                    <label title="Ajuste de volumen exclusivo para la batería" data-i18n-title="vol_drums_title"><span data-i18n="vol_drums">Drums:</span> <input type="range" id="drum-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de batería"></label>
+                    <label title="Ajuste de volumen exclusivo para el bajo" data-i18n-title="vol_bass_title"><span data-i18n="vol_bass">Bass:</span> <input type="range" id="bass-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de bajo"></label>
+                    <label title="Ajuste de volumen exclusivo para los efectos" data-i18n-title="vol_fx_title"><span data-i18n="vol_fx">FX:</span> <input type="range" id="fx-gain" min="0" max="2" value="1.0" step="0.01" title="Control de volumen de efectos"></label>
                 </div>
                 <div class="effect-controls">
-                    <label title="Activar efecto de eco">Delay: <input type="checkbox" id="delay-enable" title="Activar/Desactivar Delay"></label>
-                    <label title="Ajustar la velocidad del eco">Tiempo: <input type="range" id="delay-time" min="0" max="1" value="0.3" step="0.01" title="Velocidad del Delay"></label>
-                    <label title="Ajustar las repeticiones del eco">Feedback: <input type="range" id="delay-feedback" min="0" max="0.9" value="0.4" step="0.01" title="Repeticiones del Delay"></label>
+                    <label title="Activar efecto de eco" data-i18n-title="delay_enable_title"><span data-i18n="delay_enable">Delay:</span> <input type="checkbox" id="delay-enable" title="Activar/Desactivar Delay"></label>
+                    <label title="Ajustar la velocidad del eco" data-i18n-title="delay_time_title"><span data-i18n="delay_time">Tiempo:</span> <input type="range" id="delay-time" min="0" max="1" value="0.3" step="0.01" title="Velocidad del Delay"></label>
+                    <label title="Ajustar las repeticiones del eco" data-i18n-title="delay_feedback_title"><span data-i18n="delay_feedback">Feedback:</span> <input type="range" id="delay-feedback" min="0" max="0.9" value="0.4" step="0.01" title="Repeticiones del Delay"></label>
                 </div>
                 <div class="effect-controls">
-                    <label title="Activar reverberación o ambiente">Reverb: <input type="checkbox" id="reverb-enable" title="Activar/Desactivar Reverb"></label>
-                    <label title="Ajustar la cantidad de reverberación">Nivel: <input type="range" id="reverb-amount" min="0" max="1" value="0.5" step="0.01" title="Intensidad del Reverb"></label>
+                    <label title="Activar reverberación o ambiente" data-i18n-title="reverb_enable_title"><span data-i18n="reverb_enable">Reverb:</span> <input type="checkbox" id="reverb-enable" title="Activar/Desactivar Reverb"></label>
+                    <label title="Ajustar la cantidad de reverberación" data-i18n-title="reverb_amount_title"><span data-i18n="reverb_amount">Nivel:</span> <input type="range" id="reverb-amount" min="0" max="1" value="0.5" step="0.01" title="Intensidad del Reverb"></label>
                 </div>
                 <div class="effect-controls">
-                    <label title="Activar efecto de saturación (Distorsión)">Distorsión: <input type="checkbox" id="distortion-enable" title="Activar/Desactivar Distorsión"></label>
-                    <label title="Nivel de intensidad de la distorsión">Cantidad: <input type="range" id="distortion-amount" min="0" max="400" value="120" step="1" title="Intensidad de la distorsión"></label>
+                    <label title="Activar efecto de saturación (Distorsión)" data-i18n-title="dist_enable_title"><span data-i18n="dist_enable">Distorsión:</span> <input type="checkbox" id="distortion-enable" title="Activar/Desactivar Distorsión"></label>
+                    <label title="Nivel de intensidad de la distorsión" data-i18n-title="dist_amount_title"><span data-i18n="dist_amount">Cantidad:</span> <input type="range" id="distortion-amount" min="0" max="400" value="120" step="1" title="Intensidad de la distorsión"></label>
                 </div>
             </div>
             
-            <div class="effects" id="project-panel" title="Gestión de proyectos">
-                <p style="font-size: 0.85rem; color: #aaaaaa; margin: 0 0 15px 0;">Exporta o importa tus notas en formato .json</p>
+            <div class="effects" id="project-panel" data-i18n-title="proj_title" title="Gestión de proyectos">
+                <p style="font-size: 0.85rem; color: #aaaaaa; margin: 0 0 15px 0;" data-i18n="proj_desc">Exporta o importa tus notas en formato .json</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button id="btn-save" title="Guardar proyecto actual en un archivo JSON" style="flex: 1; justify-content: center;">Guardar</button>
-                    <button id="btn-load" title="Cargar proyecto desde un archivo JSON" style="flex: 1; justify-content: center;">Cargar</button>
+                    <button id="btn-save" data-i18n="btn_save" data-i18n-title="btn_save_title" title="Guardar proyecto actual en un archivo JSON" style="flex: 1; justify-content: center;">Guardar</button>
+                    <button id="btn-load" data-i18n="btn_load" data-i18n-title="btn_load_title" title="Cargar proyecto desde un archivo JSON" style="flex: 1; justify-content: center;">Cargar</button>
                     <input type="file" id="file-load" accept=".json" style="display: none;">
                 </div>
             </div>
 
-            <div class="effects" id="help-panel" title="Guía de uso">
+            <div class="effects" id="help-panel" data-i18n-title="help_title" title="Guía de uso">
                 <details>
-                    <summary style="cursor: pointer; font-weight: bold; color: #00bcd4; outline: none; user-select: none;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #00bcd4; outline: none; user-select: none;" data-i18n="help_summary">
                         ¿Cómo funciona?
                     </summary>
                     <div style="margin-top: 12px; font-size: 0.85rem; color: #bbbbbb; line-height: 1.5;">
-                        <p style="margin-top: 0;"><strong>🎵 Cuadrícula:</strong> Haz clic para añadir/quitar notas. Mantén presionado y arrastra para dibujar varias a la vez.</p>
-                        <p><strong>🎛️ Pistas:</strong> T1-T8 son melódicas. Drums, Bass y FX tienen sonidos elegidos en la parte superior.</p>
-                        <p><strong>🔇 Mute/Solo:</strong> Usa <strong>M</strong> para silenciar una pista y <strong>S</strong> para aislarla.</p>
-                        <p><strong>⏱️ Tempo:</strong> Haz clic en el número de BPM y arrastra hacia arriba/abajo para ajustarlo rápidamente.</p>
-                        <p><strong>⌨️ Atajos:</strong> Pulsa la barra espaciadora para reproducir/pausar.</p>
-                        <p><strong>⏺️ Grabar:</strong> Haz clic en "Grabar a Audio" para exportar tu música. La grabación se detendrá automáticamente al completar el bucle.</p>
-                        <p><strong>📊 Vúmetro:</strong> Muestra el nivel de volumen general. Si llega al color rojo, baja el control Maestro para evitar distorsión.</p>
-                        <p><strong>🎚️ Ajustes:</strong> Haz doble clic sobre cualquier control deslizante para restaurar su valor por defecto.</p>
-                        <p style="margin-bottom: 0;"><strong>💾 Proyectos:</strong> "Guardar" descarga tu secuencia actual como un archivo .json. Usa "Cargar" para abrirlo y continuar más tarde.</p>
+                        <p style="margin-top: 0;" data-i18n="help_grid"><strong>🎵 Cuadrícula:</strong> Haz clic para añadir/quitar notas. Mantén presionado y arrastra para dibujar varias a la vez.</p>
+                        <p data-i18n="help_tracks"><strong>🎛️ Pistas:</strong> T1-T8 son melódicas. Drums, Bass y FX tienen sonidos elegidos en la parte superior.</p>
+                        <p data-i18n="help_mute"><strong>🔇 Mute/Solo:</strong> Usa <strong>M</strong> para silenciar una pista y <strong>S</strong> para aislarla.</p>
+                        <p data-i18n="help_tempo"><strong>⏱️ Tempo:</strong> Haz clic en el número de BPM y arrastra hacia arriba/abajo para ajustarlo rápidamente.</p>
+                        <p data-i18n="help_keys"><strong>⌨️ Atajos:</strong> Pulsa la barra espaciadora para reproducir/pausar.</p>
+                        <p data-i18n="help_record"><strong>⏺️ Grabar:</strong> Haz clic en "Grabar a Audio" para exportar tu música. La grabación se detendrá automáticamente al completar el bucle.</p>
+                        <p data-i18n="help_vu"><strong>📊 Vúmetro:</strong> Muestra el nivel de volumen general. Si llega al color rojo, baja el control Maestro para evitar distorsión.</p>
+                        <p data-i18n="help_sliders"><strong>🎚️ Ajustes:</strong> Haz doble clic sobre cualquier control deslizante para restaurar su valor por defecto.</p>
+                        <p style="margin-bottom: 0;" data-i18n="help_proj"><strong>💾 Proyectos:</strong> "Guardar" descarga tu secuencia actual como un archivo .json. Usa "Cargar" para abrirlo y continuar más tarde.</p>
                     </div>
                 </details>
             </div>
@@ -886,13 +893,13 @@
             <div class="effects" id="github-panel" style="text-align: center; padding: 15px;">
                 <a class="github-link" href="https://github.com/edutecnis-tech/chipmunktracker/tree/main" target="_blank" rel="noopener noreferrer" style="color: #e0e0e0; text-decoration: none; font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                     <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-                    Ver en GitHub
+                    <span data-i18n="github_link">Ver en GitHub</span>
                 </a>
             </div>
         </div>
     </div>
     
-    <div class="footer-note">Desarrollado usando IA para la materia de <strong>Taller de Diseño Digital 4 de la UCB La Paz</strong> | Licencia MIT de uso libre</div>
+    <div class="footer-note" data-i18n="footer">Desarrollado usando IA para la materia de <strong>Taller de Diseño Digital 4 de la UCB La Paz</strong> | Licencia MIT de uso libre</div>
 
     <script>
         // --- CONFIGURACIÓN DE AUDIO (Estilo Chipmunk) ---
@@ -922,6 +929,226 @@
                 freqs: [440.00, 493.88, 523.25, 659.25, 698.46, 880.00, 987.77, 1046.50, 0, 55.00, 0]
             }
         };
+
+        // --- I18N DICCIONARIO ---
+        const i18n = {
+            es: {
+                app_subtitle: "Secuenciador de 8 Pistas + Drums + Bajo + FX",
+                title_play: "Iniciar/Pausar reproducción",
+                btn_play: "▶ Play",
+                btn_pause: "⏸ Pause",
+                title_inst: "Selecciona el instrumento melódico (Tracks 1-8)",
+                title_drum: "Selecciona el sonido para la pista de batería (Drums)",
+                title_bass: "Selecciona el sonido para la pista de bajo (Bass)",
+                title_fx: "Selecciona el efecto de sonido para la pista de FX",
+                title_scale: "Selecciona la escala musical de las pistas",
+                title_tempo: "Ajustar la velocidad (Tempo)",
+                bpm_label: "BPM:",
+                title_add: "Agregar 16 pasos adicionales (4 tiempos)",
+                btn_add_16: "➕ 16 Pasos",
+                title_remove: "Quitar los últimos 16 pasos de la cuadrícula",
+                btn_remove_16: "➖ 16 Pasos",
+                title_clear: "Limpiar todas las notas de la secuencia",
+                btn_clear: "Limpiar",
+                title_record: "Exportar la secuencia a un archivo de audio",
+                btn_record: "⏺ Grabar a Audio",
+                btn_stop_record: "⏹ Detener Grabación",
+                title_download: "Haz clic para descargar tu archivo",
+                btn_download: "Descargar Pista Grabada",
+                scale_default: "Pentatónica",
+                scale_major: "Mayor Feliz",
+                scale_minor: "Menor Oscura",
+                scale_blues: "Blues Callejero",
+                scale_phrygian: "Frigia Dominante",
+                scale_japanese: "Japonesa Hirajoshi",
+                fx_tsss: "Tsss (Aire)",
+                fx_blow: "Soplido",
+                fx_snap: "Snap",
+                fx_wind: "Viento",
+                fx_swoosh: "Whosh",
+                fx_energy: "Energía",
+                panel_fx: "Panel de ajustes de sonido",
+                vol_title: "Volúmenes",
+                vol_master_title: "Control de volumen maestro",
+                vol_drums_title: "Control de volumen de batería",
+                vol_bass_title: "Control de volumen de bajo",
+                vol_fx_title: "Control de volumen de efectos",
+                vol_master: "Maestro:",
+                vol_drums: "Drums:",
+                vol_bass: "Bass:",
+                vol_fx: "FX:",
+                delay_enable_title: "Activar/Desactivar Delay",
+                delay_time_title: "Velocidad del Delay",
+                delay_feedback_title: "Repeticiones del Delay",
+                delay_enable: "Delay:",
+                delay_time: "Tiempo:",
+                delay_feedback: "Feedback:",
+                reverb_enable_title: "Activar/Desactivar Reverb",
+                reverb_amount_title: "Intensidad del Reverb",
+                reverb_enable: "Reverb:",
+                reverb_amount: "Nivel:",
+                dist_enable_title: "Activar/Desactivar Distorsión",
+                dist_amount_title: "Intensidad de la distorsión",
+                dist_enable: "Distorsión:",
+                dist_amount: "Cantidad:",
+                proj_title: "Gestión de proyectos",
+                proj_desc: "Exporta o importa tus notas en formato .json",
+                btn_save_title: "Guardar proyecto actual en un archivo JSON",
+                btn_load_title: "Cargar proyecto desde un archivo JSON",
+                btn_save: "Guardar",
+                btn_load: "Cargar",
+                help_title: "Guía de uso",
+                help_summary: "¿Cómo funciona?",
+                help_grid: "<strong>🎵 Cuadrícula:</strong> Haz clic para añadir/quitar notas. Mantén presionado y arrastra para dibujar varias a la vez.",
+                help_tracks: "<strong>🎛️ Pistas:</strong> T1-T8 son melódicas. Drums, Bass y FX tienen sonidos elegidos en la parte superior.",
+                help_mute: "<strong>🔇 Mute/Solo:</strong> Usa <strong>M</strong> para silenciar una pista y <strong>S</strong> para aislarla.",
+                help_tempo: "<strong>⏱️ Tempo:</strong> Haz clic en el número de BPM y arrastra hacia arriba/abajo para ajustarlo rápidamente.",
+                help_keys: "<strong>⌨️ Atajos:</strong> Pulsa la barra espaciadora para reproducir/pausar.",
+                help_record: "<strong>⏺️ Grabar:</strong> Haz clic en \"Grabar a Audio\" para exportar tu música. La grabación se detendrá automáticamente al completar el bucle.",
+                help_vu: "<strong>📊 Vúmetro:</strong> Muestra el nivel de volumen general. Si llega al color rojo, baja el control Maestro para evitar distorsión.",
+                help_sliders: "<strong>🎚️ Ajustes:</strong> Haz doble clic sobre cualquier control deslizante para restaurar su valor por defecto.",
+                help_proj: "<strong>💾 Proyectos:</strong> \"Guardar\" descarga tu secuencia actual como un archivo .json. Usa \"Cargar\" para abrirlo y continuar más tarde.",
+                github_link: "Ver en GitHub",
+                footer: "Desarrollado usando IA para la materia de <strong>Taller de Diseño Digital 4 de la UCB La Paz</strong> | Licencia MIT de uso libre",
+                dyn_step: "Paso número",
+                dyn_drum_track: "Pista de Batería",
+                dyn_bass_track: "Pista de Bajo",
+                dyn_fx_track: "Pista de Efectos",
+                dyn_melodic_track: "Pista Melódica",
+                dyn_mute: "Mute (Silenciar)",
+                dyn_solo: "Solo (Aislar)",
+                dyn_track: "Pista",
+                confirm_clear: "¿Estás seguro de que quieres limpiar toda la secuencia?",
+                confirm_yes: "Sí",
+                confirm_no: "No",
+                err_format: "El archivo no tiene el formato de proyecto correcto.",
+                err_read: "Error al leer el archivo de proyecto."
+            },
+            en: {
+                app_subtitle: "8-Track Sequencer + Drums + Bass + FX",
+                title_play: "Start/Pause playback",
+                btn_play: "▶ Play",
+                btn_pause: "⏸ Pause",
+                title_inst: "Select the melodic instrument (Tracks 1-8)",
+                title_drum: "Select the sound for the drum track",
+                title_bass: "Select the sound for the bass track",
+                title_fx: "Select the sound effect for the FX track",
+                title_scale: "Select the musical scale for the tracks",
+                title_tempo: "Adjust the speed (Tempo)",
+                bpm_label: "BPM:",
+                title_add: "Add 16 additional steps (4 beats)",
+                btn_add_16: "➕ 16 Steps",
+                title_remove: "Remove the last 16 steps from the grid",
+                btn_remove_16: "➖ 16 Steps",
+                title_clear: "Clear all notes from the sequence",
+                btn_clear: "Clear",
+                title_record: "Export the sequence to an audio file",
+                btn_record: "⏺ Record Audio",
+                btn_stop_record: "⏹ Stop Recording",
+                title_download: "Click to download your file",
+                btn_download: "Download Audio Track",
+                scale_default: "Pentatonic",
+                scale_major: "Happy Major",
+                scale_minor: "Dark Minor",
+                scale_blues: "Street Blues",
+                scale_phrygian: "Phrygian Dominant",
+                scale_japanese: "Japanese Hirajoshi",
+                fx_tsss: "Tsss (Air)",
+                fx_blow: "Blow",
+                fx_snap: "Snap",
+                fx_wind: "Wind",
+                fx_swoosh: "Swoosh",
+                fx_energy: "Energy",
+                panel_fx: "Sound tweaking panel",
+                vol_title: "Volumes",
+                vol_master_title: "Master volume control",
+                vol_drums_title: "Drum volume control",
+                vol_bass_title: "Bass volume control",
+                vol_fx_title: "Effects volume control",
+                vol_master: "Master:",
+                vol_drums: "Drums:",
+                vol_bass: "Bass:",
+                vol_fx: "FX:",
+                delay_enable_title: "Toggle Delay",
+                delay_time_title: "Delay Speed",
+                delay_feedback_title: "Delay Repeats",
+                delay_enable: "Delay:",
+                delay_time: "Time:",
+                delay_feedback: "Feedback:",
+                reverb_enable_title: "Toggle Reverb",
+                reverb_amount_title: "Reverb Intensity",
+                reverb_enable: "Reverb:",
+                reverb_amount: "Amount:",
+                dist_enable_title: "Toggle Distortion",
+                dist_amount_title: "Distortion Intensity",
+                dist_enable: "Distortion:",
+                dist_amount: "Amount:",
+                proj_title: "Project Management",
+                proj_desc: "Export or import your notes in .json format",
+                btn_save_title: "Save current project to a JSON file",
+                btn_load_title: "Load project from a JSON file",
+                btn_save: "Save",
+                btn_load: "Load",
+                help_title: "User Guide",
+                help_summary: "How does it work?",
+                help_grid: "<strong>🎵 Grid:</strong> Click to add/remove notes. Click and drag to draw multiple notes at once.",
+                help_tracks: "<strong>🎛️ Tracks:</strong> T1-T8 are melodic. Drums, Bass, and FX use sounds selected at the top.",
+                help_mute: "<strong>🔇 Mute/Solo:</strong> Use <strong>M</strong> to mute a track and <strong>S</strong> to solo it.",
+                help_tempo: "<strong>⏱️ Tempo:</strong> Click on the BPM number and drag up/down to adjust it quickly.",
+                help_keys: "<strong>⌨️ Shortcuts:</strong> Press Spacebar to play/pause.",
+                help_record: "<strong>⏺️ Record:</strong> Click \"Record Audio\" to export your music. Recording stops automatically after one loop.",
+                help_vu: "<strong>📊 VU Meter:</strong> Shows the overall volume level. If it hits red, lower the Master volume to avoid distortion.",
+                help_sliders: "<strong>🎚️ Tweaks:</strong> Double-click any slider to reset it to its default value.",
+                help_proj: "<strong>💾 Projects:</strong> \"Save\" downloads your current sequence as a .json file. Use \"Load\" to open it and continue later.",
+                github_link: "View on GitHub",
+                footer: "Developed using AI for the <strong>Digital Design Workshop 4 at UCB La Paz</strong> | Free to use MIT License",
+                dyn_step: "Step number",
+                dyn_drum_track: "Drum Track",
+                dyn_bass_track: "Bass Track",
+                dyn_fx_track: "FX Track",
+                dyn_melodic_track: "Melodic Track",
+                dyn_mute: "Mute",
+                dyn_solo: "Solo",
+                dyn_track: "Track",
+                confirm_clear: "Are you sure you want to clear the entire sequence?",
+                confirm_yes: "Yes",
+                confirm_no: "No",
+                err_format: "The file does not have the correct project format.",
+                err_read: "Error reading the project file."
+            }
+        };
+
+        let currentLang = 'es';
+        function t(key) {
+            return i18n[currentLang][key] || key;
+        }
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (el.tagName === 'OPTION') {
+                    el.innerText = t(key);
+                } else {
+                    el.innerHTML = t(key);
+                }
+            });
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                el.title = t(el.getAttribute('data-i18n-title'));
+            });
+
+            document.getElementById('btn-play').innerText = isPlaying ? t('btn_pause') : t('btn_play');
+            if (isRecording) {
+                document.getElementById('btn-record').innerText = t('btn_stop_record');
+            } else {
+                document.getElementById('btn-record').innerText = t('btn_record');
+            }
+            renderGrid();
+        }
+
+        document.getElementById('lang-select').addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            updateLanguage();
+        });
 
         let currentScale = 'default';
         let TRACK_FREQUENCIES = [...SCALES[currentScale].freqs];
@@ -1011,7 +1238,7 @@
                 const stepNumber = document.createElement('div');
                 stepNumber.className = 'step-header';
                 stepNumber.innerText = step + 1;
-                stepNumber.title = `Paso número ${step + 1}`;
+                stepNumber.title = `${t('dyn_step')} ${step + 1}`;
                 gridElement.appendChild(stepNumber);
             }
 
@@ -1036,7 +1263,7 @@
                 const muteBtn = document.createElement('button');
                 muteBtn.className = 'mute-btn' + (mutedTracks[track] ? ' active' : '');
                 muteBtn.innerText = 'M';
-                muteBtn.title = 'Mute (Silenciar)';
+                muteBtn.title = t('dyn_mute');
                 muteBtn.addEventListener('click', () => {
                     mutedTracks[track] = !mutedTracks[track];
                     muteBtn.classList.toggle('active', mutedTracks[track]);
@@ -1045,7 +1272,7 @@
                 const soloBtn = document.createElement('button');
                 soloBtn.className = 'solo-btn' + (soloedTracks[track] ? ' active' : '');
                 soloBtn.innerText = 'S';
-                soloBtn.title = 'Solo (Aislar)';
+                soloBtn.title = t('dyn_solo');
                 soloBtn.addEventListener('click', () => {
                     soloedTracks[track] = !soloedTracks[track];
                     soloBtn.classList.toggle('active', soloedTracks[track]);
@@ -1058,16 +1285,16 @@
                 textSpan.id = `label-text-${track}`;
                 if (track === 8) {
                     textSpan.innerText = 'Drums';
-                    label.title = 'Pista de Batería';
+                    label.title = t('dyn_drum_track');
                 } else if (track === 9) {
                     textSpan.innerText = 'Bass';
-                    label.title = 'Pista de Bajo';
+                    label.title = t('dyn_bass_track');
                 } else if (track === 10) {
                     textSpan.innerText = 'FX';
-                    label.title = 'Pista de Efectos';
+                    label.title = t('dyn_fx_track');
                 } else {
                     textSpan.innerText = `T${track + 1} (${TRACK_NOTES[track]})`;
-                    label.title = `Pista Melódica ${track + 1}`;
+                    label.title = `${t('dyn_melodic_track')} ${track + 1}`;
                 }
                 label.appendChild(btnContainer);
                 label.appendChild(textSpan);
@@ -1094,7 +1321,7 @@
                     if (track === 8) trackTitleName = 'Drums';
                     if (track === 9) trackTitleName = 'Bass';
                     if (track === 10) trackTitleName = 'FX';
-                    cell.title = `Pista ${trackTitleName}, Paso ${step + 1}`;
+                    cell.title = `${t('dyn_track')} ${trackTitleName}, ${t('dyn_step')} ${step + 1}`;
                     
                     // Restaurar estado visual si la celda ya estaba activa (importante al añadir bloques)
                     if (gridState[track][step]) {
@@ -2143,7 +2370,7 @@
                             mediaRecorder.stop();
                             isRecording = false;
                             document.getElementById('btn-record').classList.remove('recording');
-                            document.getElementById('btn-record').innerText = '⏺ Grabar a Audio';
+                            document.getElementById('btn-record').innerText = t('btn_record');
                             document.querySelector('.sequencer-wrapper').classList.remove('is-recording');
                         }
                     }, stopTimeMs);
@@ -2222,12 +2449,12 @@
             
             if (!isPlaying) {
                 isPlaying = true;
-                document.getElementById('btn-play').innerText = '⏸ Pause';
+                document.getElementById('btn-play').innerText = t('btn_pause');
                 nextNoteTime = audioCtx.currentTime + 0.05;
                 scheduler();
             } else {
                 isPlaying = false;
-                document.getElementById('btn-play').innerText = '▶ Play';
+                document.getElementById('btn-play').innerText = t('btn_play');
                 clearTimeout(timerID);
             }
         });
@@ -2245,10 +2472,10 @@
             confirmPopup.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
             confirmPopup.style.zIndex = '1000';
             confirmPopup.innerHTML = `
-                <p style="color: #e0e0e0; margin: 0 0 20px 0; text-align: center;">¿Estás seguro de que quieres limpiar toda la secuencia?</p>
+                <p style="color: #e0e0e0; margin: 0 0 20px 0; text-align: center;">${t('confirm_clear')}</p>
                 <div style="display: flex; justify-content: center; gap: 15px;">
-                    <button id="confirm-yes" style="background-color: #f44336; color: white; border: none; padding: 10px 30px; border-radius: 50px; cursor: pointer;">Sí</button>
-                    <button id="confirm-no" style="background-color: #000; color: white; border: 1px solid #777777; padding: 10px 30px; border-radius: 50px; cursor: pointer;">No</button>
+                    <button id="confirm-yes" style="background-color: #f44336; color: white; border: none; padding: 10px 30px; border-radius: 50px; cursor: pointer;">${t('confirm_yes')}</button>
+                    <button id="confirm-no" style="background-color: #000; color: white; border: 1px solid #777777; padding: 10px 30px; border-radius: 50px; cursor: pointer;">${t('confirm_no')}</button>
                 </div>
             `;
             document.body.appendChild(confirmPopup);
@@ -2363,20 +2590,20 @@
                     downloadLink.href = url;
                     downloadLink.download = `chipmunk_track.${ext}`;
                     downloadLink.style.display = 'block';
-                    downloadLink.innerText = `⬇ Descargar Pista de Audio (${ext.toUpperCase()})`;
+                    downloadLink.innerText = `⬇ ${t('btn_download')} (${ext.toUpperCase()})`;
                 };
 
                 mediaRecorder.start();
                 isRecording = true;
                 recordBtn.classList.add('recording');
-                recordBtn.innerText = '⏹ Detener Grabación';
+                recordBtn.innerText = t('btn_stop_record');
                 downloadLink.style.display = 'none';
                 document.querySelector('.sequencer-wrapper').classList.add('is-recording');
 
                 // Iniciar reproducción automáticamente al grabar
                 if (!isPlaying) {
                     isPlaying = true;
-                    document.getElementById('btn-play').innerText = '⏸ Pause';
+                    document.getElementById('btn-play').innerText = t('btn_pause');
                     scheduler();
                 }
 
@@ -2385,7 +2612,7 @@
                 mediaRecorder.stop();
                 isRecording = false;
                 recordBtn.classList.remove('recording');
-                recordBtn.innerText = '⏺ Grabar a Audio';
+                recordBtn.innerText = t('btn_record');
                 document.querySelector('.sequencer-wrapper').classList.remove('is-recording');
             }
         });
@@ -2558,10 +2785,10 @@
                         clearUI();
                         renderGrid();
                     } else {
-                        alert('El archivo no tiene el formato de proyecto correcto.');
+                        alert(t('err_format'));
                     }
                 } catch (err) {
-                    alert('Error al leer el archivo de proyecto.');
+                    alert(t('err_read'));
                     console.error(err);
                 }
             };
